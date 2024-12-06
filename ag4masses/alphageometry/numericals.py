@@ -1568,7 +1568,6 @@ def _draw_highlight_right_angle(ax: matplotlib.axes.Axes, line1, line2):
                             square_size, square_size, color='white', alpha=0.1)
     rotate = transforms.Affine2D().rotate_deg_around(intersection[0], intersection[1], deg)
     square.set_transform(rotate + ax.transData)
-    print(length)
     ax.add_patch(square)
   
 
@@ -1617,7 +1616,6 @@ def _draw(
     if (p.x, p.y) not in seen:
       unique_points.append(p)
       seen.add((p.x, p.y))
-  print(len(unique_points))
   for p1, p2 in combinations(unique_points, 2):
     line_lengths[(p1, p2)] = round(p1.distance(p2), 9)
   circles = [draw_circle(ax, c, color=ccolor) for c in circles]
@@ -1627,7 +1625,6 @@ def _draw(
     draw_point(ax, p.num, p.name, line_boundaries, circles, semicircles, color=pcolor)
 
   same_length_pairs = find_pairs_with_same_distance(line_lengths)
-  print(len(same_length_pairs))
 
   length_color_map = {}  # Dictionary to map length to its color
   for i, ((p1, p2), (p3, p4)) in enumerate(same_length_pairs):
