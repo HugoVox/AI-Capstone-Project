@@ -1545,14 +1545,18 @@ def _draw_highlight_right_angle(ax: matplotlib.axes.Axes, line1, line2):
   a1, b1 = line1[0], line1[1]
   a2, b2 = line2[0], line2[1]
   length = math.sqrt((a1.y - a1.x)**2 + (b1.y - b1.x)**2)
-  slope = (b1.y - a1.y) / (b1.x - a1.x)
-
+  x_min, x_max = ax.get_xlim()
+  y_min, y_max = ax.get_ylim()
+  x_range = x_max - x_min
+  y_range = y_max - y_min
+  square_size_ratio = 0.03
+  square_size = square_size_ratio * min(x_range, y_range)
   # Find intersection point of the infinite lines
   angle = calculate_angle_two_lines_intersections(*line1, *line2)
   intersection = intersection_point(a1, b1, a2, b2)
   if b1.x - a1.x == 0:
     slope = (b2.y - a2.y) / (b2.x - a2.x)
-  elif b2.x - a2.x == 0:
+  else:
     slope = (b1.y - a1.y) / (b1.x - a1.x)
   deg = math.degrees(math.atan(slope))
   if intersection == False:
@@ -1560,12 +1564,11 @@ def _draw_highlight_right_angle(ax: matplotlib.axes.Axes, line1, line2):
     return
   elif 89.9 < angle < 90.1:     
     # Plot the small square at the intersection (highlight right angle)
-    square_size = 0.1
     square = plt.Rectangle((intersection[0] - square_size / 2, intersection[1] - square_size / 2),
                             square_size, square_size, color='white', alpha=0.1)
     rotate = transforms.Affine2D().rotate_deg_around(intersection[0], intersection[1], deg)
     square.set_transform(rotate + ax.transData)
-
+    print(length)
     ax.add_patch(square)
   
 
