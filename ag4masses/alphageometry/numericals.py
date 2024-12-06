@@ -1479,20 +1479,32 @@ def highlight_same_angle(ax, lines, color_list):
     """Highlights angles formed at shared points by pairs of lines."""
     lines_list = [(draw_line(ax, l, draw=False)) for l in lines]  # Extract points for all lines
     angle_color_radius = {}
-
     for i, (line1, line2) in enumerate(combinations(lines_list, 2)):
         # Calculate the angle
+        count = 0
         common_point, other_points, angle = calculate_angle(*line1, *line2)
         if angle is None or angle > 91 or angle < 25:
           continue  # Skip invalid or small angles
         if search_in_dict(angle, angle_color_radius) == False:
           # Assign color and radius for this unique angle
-          color = color_list[i % len(color_list)]
+          count += 1
+          color = color_list[i % len(color_list)+2]
           radius = angle * 0.001
-          angle_color_radius[round(angle,3)] = (color, radius)
+          angle_color_radius[round(angle,3)] = [color, radius, count]
         else:
-          color, radius = angle_color_radius[round(angle, 3)]
-          highlight_angle2(ax, common_point, *other_points, radius, color)
+          angle_color_radius[round(angle, 3)][2] += 1
+          
+      
+    for i, (line1, line2) in enumerate(combinations(lines_list, 2)):
+        # Calculate the angle
+        count = 0
+        common_point, other_points, angle = calculate_angle(*line1, *line2)
+        if angle is None or angle > 91 or angle < 25:
+          continue
+        if search_in_dict(angle, angle_color_radius) == True:
+          if angle_color_radius[round(angle, 3)][2] >= 2:
+            color, radius, count = angle_color_radius[round(angle, 3)]
+            highlight_angle2(ax, common_point, *other_points, radius, color)
 
 def intersection_point(p1, p2, p3, p4):
   x1, y1, x2, y2 = p1.x, p1.y, p2.x, p2.y
@@ -1631,7 +1643,7 @@ def _draw(
     line_length = p1.distance(p2)  # Calculate the length of the line    
     if line_length not in length_color_map:  # Check if length is already in the dictionary
         #color = colors_highlight[i % len(colors_highlight)]
-        color = colors_highlight[i % len(colors_highlight) ]  # Assign a new color
+        color = colors_highlight[i % len(colors_highlight) + 2 ]  # Assign a new color
         length_color_map[line_length] = color  # Store the length and color in the dictionary
     else:
         color = length_color_map[line_length]  # Use the existing color for this length
