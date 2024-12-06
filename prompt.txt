@@ -1,0 +1,95 @@
+You are an Artificial General Intelligence. Your task is to provide the problem definition language based on the problem statement.
+1. Problem Definition Format: Each problem is represented as a sequence of premises followed by a conclusion.
+- Premises: Define points, lines, and circles. Use clauses to construct points step-by-step as if drawn with a compass and straightedge.
+- Conclusion: A single statement verifying the final geometry condition.
+2. Premise Structure:
+- Clauses: Each clause specifies one or more points using defined actions. Clauses are separated by ';', with no trailing ';' before the '?' that separates premises from the conclusion.
+- Actions: Each clause uses one or two actions to define points in terms of geometry constraints.
+######
+Example:
+- For constructing the midpoint M of segment AB: m = midpoint m a b
+- To intersect a line and a circle at P: p = on_circle p o a, on_line p b c
+######
+3. Actions: Use only the following actions, each with a specific format and function. Clauses with 2 actions define points by their intersection.
+3.1. Basic Point Constructions:
+- x = angle_bisector x a b c : Construct a point X on the angle bisector of angle ABC
+- x = circle x a b c : Construct point X as the circumcenter of ABC, or ABC inscribed in (X)
+- x = foot x a b c : Construct X as the foot of A on BC
+- x = incenter x a b c : Construct X as the incenter of ABC
+- x y z i = incenter2 x y z i a b c : Construct I as the incenter of ABC with touchpoints X, Y, Z
+- x y = segment x y : Construct two distinct points X, Y
+- x = excenter x a b c : Construct X as the excenter of ABC
+- x = lc_tangent x a o : Construct E on the tangent of circle (O, A) with touchpoint A
+- x = tangent x o a : Construct X such that OA is perpendicular to AX
+- x = midpoint x a b : Construct X as the midpoint of AB'
+- x = mirror x a b : Construct X such that B is the midpoint of AX
+- x = on_bline x a b : Construct X on the perpendicular bisector of AB
+- x = on_circle x o a : Construct X such that OA = OX
+- x = on_line x a b : Construct X on line AB
+- x = on_pline x a b c : Construct X such that XA is parallel to BC
+- x = on_tline x a b c : Construct X such that XA is perpendicular to BC
+- x = orthocenter x a b c : Construct X as the orthocenter of ABC
+- x = parallelogram x a b c : Construct X such that ABCX is a parallelogram
+- a b c = r_triangle a b c : Construct right triangle ABC
+- a b c = triangle a b c : Construct triangle ABC
+- a b c = iso_triangle a b c : Construct isosceles triangle ABC such that AB = AC
+- a b c d = isquare a b c d : Construct square ABCD
+- x y = tangent x y a o b : Construct points X, Y as the tangent touch points from A to circle (O, B)
+3.2. Intersection Actions:
+- x = on_line x a b, on_line x c d : Construct point X as the intersection of line AB and line CD
+- x = on_circle x o a, on_line x b c : Construct point X as the intersection of line BC and circle (O, A)
+- x = lc_tangent x a o, on_line x b c : Construct point X as the intersection of the tangent of circle (O, A) with touchpoint A and line BC
+- x = on_line x a b, angle_bisector x c d e : Construct point X as the intersection of line AB and the angle bisector of angle CDE
+- x = on_tline x a b c, on_circle x o d : Construct point X as the intersection of the line perpendicular to BC from A and circle (O, D)
+- x = on_circle x o a, angle_bisector x c d e : Construct point X as the intersection of circle (O, A) and the angle bisector of angle CDE
+- x = on_pline x a b c, on_circle x o d : Construct point X as the intersection of the line parallel to BC from A and circle (O, D)
+- x = on_tline x a b c, on_tline x d e f : Construct point X as the intersection of the line perpendicular to BC from A and the line perpendicular to EF from D
+4. Conclusion Types: After ?, state a single goal from the list below:
+- coll a b c : points a b c are collinear
+- cong a b c e : segments ab and cd are congruent (length equal)
+- contri a b c p q r : triangles abc and pqr are congruent
+- cyclic a b c d : 4 points a b c d are cocyclic, or quadrilateral abcd is inscribed, or quadrilateral abcd is cyclic
+- eqangle a b c d p q r s : the angles between lines ab-cd and pq-rs are equal. Note that angles have directions (signs) so the order between a b and c d matters. eqangle a b c d c d a b is false. The way to think about it is, angle ab-cd is the angle to turn line ab clockwise so it is parallel with the line cd. You can use counter-clockwise as the convention too, as long as for all angles the same convention is used
+- eqratio a b c d p q r s : segment length ab/cd = pq/rs, or ab.rs = cd.pq
+- midp m a b : point m is the midpoint of a and b
+- para a b c d : segments ab and cd are parallel
+- perp a b c d : segments ab and cd are perpendicular to each other
+- simtri a b c p q r : triangles abc and pqr are similar
+######
+Example Problem Transformation: 
+user: Given triangle ABC with three acute angles inscribed in circle (O). The altitudes AD, BE, CF intersect at H and intersect circle (O) at M, N, P respectively. Prove that: Quadrilateral CEHD is inscribed.
+assistant: a b c = triangle a b c; o = circle o a b c; d = foot d a b c; e = foot e b a c; f = foot f c a b; h = orthocenter h a b c; m = on_circle m o a, on_line m a d; n = on_circle n o a, on_line n b e; p = on_circle p o a, on_line p c f ? cyclic c e h d
+
+user: Given acute triangle ABC, Draw altitudes AD, BE, CF. Let H be the orthocenter of the triangle. Let M, N, P, Q be the perpendicular projections of D onto AB, BE, CF, AC, respectively. Prove: quadrilateral DPQC is inscribed.
+assistant: a b c = triangle a b c; d = foot d a b c; e = foot e b a c; f = foot f c a b; h = orthocenter h a b c; m = foot m d a b; n = foot n d b e; p = foot p d c f; q = foot q d a c ? cyclic d p q c
+
+user: Given triangle ABC inscribed in a circle with center O. D and E are the midpoints of arcs AB; AC respectively. Call the intersections of DE with AB; AC H and K respectively. Call I the intersection of BE with CD. Prove: CEKI is inscribed.
+assistant: a b c = triangle a b c; o = circle o a b c; d = on_circle d o a, angle_bisector d a o b; e = on_circle e o a, angle_bisector e a o c; h = on_line h d e, on_line h a b; k = on_line k d e, on_line k a c; i = on_line i b e, on_line i c d ? cyclic c e k i
+
+user: Given triangle ABC with: ∠A = 90 degrees. D is a point on side AB. The circle with diameter BD intersects BC at E. The lines CD; AE intersect the circle at the second points F and G respectively. Prove that AC // FG.
+assistant: a b c = r_triangle a b c; d = on_line d a b; z = midpoint z b d; e = on_circle e z b, on_line e b c; f = on_line f c d, on_circle f z b; g = on_line g a e, on_circle g z b ? para a c f g
+
+user: Given acute triangle ABC, Draw the altitudes AD, BE, CF. Let H be the orthocenter of the triangle. Let M, N, P, Q be the perpendicular projections of D onto AB, BE, CF, AC, respectively. Prove: The four points M, N, P, Q are collinear.
+assistant: a b c = triangle a b c; d = foot d a b c; e = foot e b a c; f = foot f c a b; h = orthocenter h a b c; m = foot m d a b; n = foot n d b e; p = foot p d c f; q = foot q d a c ? coll m n p q
+
+user: Given triangle ABC inscribed in a circle with center O. D and E are the midpoints of arcs AB; AC respectively. Call the intersection of DE with AB; AC H and K respectively. Call I the intersection of BE with CD. Prove: AI is perpendicular to DE
+assistant: a b c = triangle a b c; o = circle o a b c; d = on_circle d o a, angle_bisector d a o b; e = on_circle e o a, angle_bisector e a o c; h = on_line h d e, on_line h a b; k = on_line k d e, on_line k a c; i = on_line i b e, on_line i c d ? perp a i d e
+
+user: Given ∆ABC is right-angled at A, with height AH. HD, HE are the bisectors of angles BHA and CHA respectively (D, E belong to AB, AC). I is the midpoint of DE. BI intersects DH, CD at M, P respectively; CI intersects EH, BE at N, Q respectively. BE intersects CD at K. Prove: MN // DE
+assistant: a b c = r_triangle a b c; h = foot h a b c; d = angle_bisector d b h a, on_line d a b; e = angle_bisector e c h a, on_line e a c; i = midpoint i d e; m = on_line m b i, on_line m d h; p = on_line p b i, on_line p c d; n = on_line n c i, on_line n e h; q = on_line q c i, on_line q b e; k = on_line k b e, on_line k c d ? para m n d e
+
+user: Given a right triangle ABC at A, height AH. Draw a circle with center A and radius AH. Let HD be the diameter of circle (A; AH). The tangent of the circle at D intersects CA at E. Let I be the projection of A on BE. Prove that AI = AH.
+assistant: a b c = r_triangle a b c; h = foot h a b c; d = on_circle d a h, on_line d a h; e = lc_tangent e d a, on_line e c a; i = foot a b e ? cong a i a h
+
+user: Given triangle ABC has three acute angles inscribed in a circle with center O and fixed radius R and D is the foot of the internal bisector of angle A of the triangle. Let E and F be the centers of the circumscribed circles of triangles ABD and ACD, respectively. Prove that quadrilateral AEOF is an inscribed quadrilateral.
+assistant: a b c = triangle a b c; o = circle o a b c; d = angle_bisector d b a c, on_line d b c; e = circle e a b d; f = circle f a c d ? cyclic a e o f
+
+user: Given triangle ABC has three acute angles and is inscribed in circle (O). Let H be the orthocenter of triangle ABC and P be a point on segment BC (P is different from B, C). Line AH intersects (BHC) at T different from H. Line PT intersects (BHC) at K different from T. Suppose BK intersects AC at M and CK intersects AB at N. Let X, Y be the midpoints of BN, CM respectively. Prove that quadrilateral ANKM is inscribed in a circle.
+assistant: a b c = triangle a b c; o = circle o a b c; h = orthocenter h a b c; p = on_line p b c; o1 = circle o1 b h c; t = on_line t a h, on_circle t o1 b; k = on_line k p t, on_circle k o1 b; m = on_line m b k, on_line m a c; n = on_line n c k, on_line n a b; x = midpoint x b n; y = midpoint y c m ? cyclic a n k m
+
+user: Given triangle ABC inscribed in a circle with center O. D and E are the midpoints of arcs AB; AC respectively. Call the intersections of DE with AB; AC H and K respectively. Prove: triangle AHK is isosceles.
+assistant: a b c = triangle a b c; o = circle o a b c; d = on_circle d o a, angle_bisector d a o b; e = on_circle e o a, angle_bisector e a o c; h = on_line h d e, on_line h a b; k = on_line k d e, on_line k a c ? cong a h a k
+
+user: Given an equilateral triangle ABC with height AH. On side BC, take any point M (M does not coincide with B, C, H); from M, draw MP, MQ perpendicular to sides AB. AC. Prove that OH ⊥ PQ
+assistant: b c = segment b c; a = eq_triangle a b c; h = foot h a b c; m = on_line m b c; p = foot m a b; q = foot m a c; o = midpoint o a m ? perp o h p q
+######
