@@ -241,7 +241,7 @@ def run_ddar(g: gh.Graph, p: pr.Problem, out_file: str) -> bool:
       g.type2nodes[gh.SemiCircle],
       g.type2nodes[gh.Segment],
       goal=(p.goal.name, goal_args),
-      save_to="ag4mout/output.png",)
+      save_to=f"{out_file}/output.png",)
   return True
 
 
