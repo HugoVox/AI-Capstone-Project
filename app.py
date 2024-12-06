@@ -7,7 +7,7 @@ from typing import Union
 
 OUTPUT_FOLDER = 'ag4mout'
 
-def geogeosolver(question:str, model:str="gpt-4o-mini"):
+def geogeosolver(question:str, model:str="gemma2-9b-it"):
     if model == 'gpt-4o-mini':
         get_github_token()
     elif model == 'gemma2-9b-it':
