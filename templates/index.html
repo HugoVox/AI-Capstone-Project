@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/index.css">
+    <link href='https://fonts.googleapis.com/css?family=Barlow' rel='stylesheet'>
+    <title>Homepage</title>
+</head>
+<body>
+
+    <div id="homepage">
+
+
+        <div id="home_left">
+            <form action="/", method="post" id="form">
+                <div id="math-problem">
+                    <div class="title">
+                        Đề Bài
+                    </div>
+                    <textarea id="problem-input" rows="5" name="problem" required></textarea>
+                </div>
+    
+                <button id="button">
+                    <div class ="title" type="submit">Giải</div> 
+                </button>
+            </form>
+
+
+            <div id="explaination">
+                <div id="theory" style="display:flex; flex-direction: column; gap: 0.53vw;">
+                    <div class="title">Các Giả Thuyết Của Đề Bài</div>
+                    <div class="output_space"> {{premises}}</div>
+                </div>
+                <div id="bonus_point" style="display:flex; flex-direction: column; gap: 0.53vw;">
+                    <div class="title">Các Điểm Được Dựng Thêm</div>
+                    <div class="output_space"> {{constructions}}</div>
+                </div>
+                <div id="solving" style="display:flex; flex-direction: column; gap: 0.53vw;">
+                    <div class="title">Các Bước Giải</div>
+                    <div class="output_space"> {{step}}</div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div id="home_right">
+            <img id="get_image" style="height:100%; width:100%;" src="{{ image }}" alt="Image Of Math Problem">
+        </div>
+
+    </div>
+
+</body>
+</html>
