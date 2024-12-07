@@ -1629,7 +1629,7 @@ def _draw(
       unique_points.append(p)
       seen.add((p.x, p.y))
   for p1, p2 in combinations(unique_points, 2):
-    line_lengths[(p1, p2)] = round(p1.distance(p2), 9)
+    line_lengths[(p1, p2)] = round(p1.distance(p2), 3)
   circles = [draw_circle(ax, c, color=ccolor) for c in circles]
   semicircles = [draw_semicircle(ax, c, color=ccolor) for c in semicircles]
 
@@ -1640,7 +1640,7 @@ def _draw(
 
   length_color_map = {}  # Dictionary to map length to its color
   for i, ((p1, p2), (p3, p4)) in enumerate(same_length_pairs):
-    line_length = p1.distance(p2)  # Calculate the length of the line    
+    line_length = round(p1.distance(p2), 3)  # Calculate the length of the line    
     if line_length not in length_color_map:  # Check if length is already in the dictionary
         #color = colors_highlight[i % len(colors_highlight)]
         color = colors_highlight[i % len(colors_highlight) + 2 ]  # Assign a new color
