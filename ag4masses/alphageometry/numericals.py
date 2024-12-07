@@ -1629,7 +1629,7 @@ def _draw(
       unique_points.append(p)
       seen.add((p.x, p.y))
   for p1, p2 in combinations(unique_points, 2):
-    line_lengths[(p1, p2)] = round(p1.distance(p2), 3)
+    line_lengths[(p1, p2)] = round(p1.distance(p2), 9)
   circles = [draw_circle(ax, c, color=ccolor) for c in circles]
   semicircles = [draw_semicircle(ax, c, color=ccolor) for c in semicircles]
 
