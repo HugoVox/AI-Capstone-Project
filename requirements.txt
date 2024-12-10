@@ -8,6 +8,7 @@ distro==1.9.0
 exceptiongroup==1.2.2
 fastapi==0.115.4
 ffmpy==0.4.0
+flask==3.1.0
 gradio==5.5.0
 gradio-client==1.4.2
 groq==0.11.0
