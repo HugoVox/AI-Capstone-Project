@@ -72,7 +72,7 @@ def predict():
         shutil.copy2('ag4mout/output.png','static/ag4mout')
         image = "../static/" + image
     except:
-        image = "../static/ag4mout/error.png    
+        image = "../static/ag4mout/error.png"
     return render_template('index.html', image = image, premises = premises, constructions=constructions, step = step)
 
 
