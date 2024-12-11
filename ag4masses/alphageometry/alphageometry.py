@@ -234,6 +234,7 @@ def run_ddar(g: gh.Graph, p: pr.Problem, out_file: str) -> bool:
     return False
 
   write_solution(g, p, out_file)
+  out_folder = out_file.split('/')[0]
   gh.nm.draw(
       g.type2nodes[gh.Point],
       g.type2nodes[gh.Line],
@@ -241,7 +242,8 @@ def run_ddar(g: gh.Graph, p: pr.Problem, out_file: str) -> bool:
       g.type2nodes[gh.SemiCircle],
       g.type2nodes[gh.Segment],
       goal=(p.goal.name, goal_args),
-      save_to=f"{out_file}/output.png",)
+      save_to=f"{out_folder}/output.png",
+      )
   return True
 
 
